@@ -8,6 +8,10 @@ jobs:
   test:
     timeout-minutes: 15
     runs-on: ubuntu-latest
+    env:
+      BASE_URL: https://www.saucedemo.com
+      STANDARD_USER: ${{ secrets.STANDARD_USER }}
+      STANDARD_PASSWORD: ${{ secrets.STANDARD_PASSWORD }}
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
@@ -19,15 +23,6 @@ jobs:
       run: npx playwright install --with-deps
     - name: Run Playwright tests
       run: npx playwright test
-    - name: Debug env vars
-      run: |
-        echo "STANDARD_USER length: ${#STANDARD_USER}"
-        echo "STANDARD_PASSWORD length: ${#STANDARD_PASSWORD}"
-        echo "BASE_URL: $BASE_URL"
-      env:
-          BASE_URL: https://www.saucedemo.com
-          STANDARD_USER: ${{ secrets.STANDARD_USER }}
-          STANDARD_PASSWORD: ${{ secrets.STANDARD_PASSWORD }}
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
