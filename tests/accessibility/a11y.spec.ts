@@ -1,6 +1,8 @@
 import AxeBuilder from '@axe-core/playwright';
 import type { AxeResults } from 'axe-core';
 import { test, expect } from '../../src/fixtures/fixtures';
+import fs from 'fs';
+import path from 'path';
 
 interface KnownViolation {
     readonly ruleId: string;
@@ -42,6 +44,32 @@ function analyzeAccessibility(results: AxeResults): void {
         console.log(`Violations found: ${results.violations.length} total (${knownViolations.length} known, ${newViolations.length} new)`);
         console.table(summary);
     }
+
+    const report = results.violations.map(violation => {
+        return {
+            ruleId: violation.id,
+            impact: violation.impact,
+            description: violation.help,
+            helpUrl: violation.helpUrl,
+            wcagTags: violation.tags.filter(t => t.startsWith('wcag')),
+
+            affectedElements: violation.nodes.map(node => node.html),
+
+            status: knownRuleIds.includes(violation.id) ? '⚠️ KNOWN' : '🔴 NEW',
+        };
+    });
+
+    const timestamp = new Date().toISOString().replace(/:/g, '-');
+    const reportString = JSON.stringify(report, null, 2);
+    const outputDir = path.join('test-results', 'a11y-reports');
+    const outputPath = `${outputDir}/a11y-report-${timestamp}.json`;
+
+    if (results.violations.length > 0){
+        fs.mkdirSync(outputDir, { recursive: true });
+        fs.writeFileSync(outputPath, reportString)
+        console.log(`✅ A11y Report written to: ${outputPath}`);
+    }
+
     expect(newViolations).toEqual([]);
 }
 
