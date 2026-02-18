@@ -21,7 +21,7 @@ jobs:
       run: npx playwright test
       env:
           BASE_URL: https://www.saucedemo.com
-          STANDARD_USERNAME: ${{ secrets.STANDARD_USER }}
+          STANDARD_USER: ${{ secrets.STANDARD_USER }}
           STANDARD_PASSWORD: ${{ secrets.STANDARD_PASSWORD }}
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
