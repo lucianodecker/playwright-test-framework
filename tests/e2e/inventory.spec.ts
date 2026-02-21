@@ -3,7 +3,7 @@ import { test, expect } from '../../src/fixtures/fixtures';
 
 test.describe('Inventory', () => {
     test('should display products after login', async ({ authenticatedPage }) => {
-        await authenticatedPage.expectInventoryPageVisible();
+        expect (await authenticatedPage.getPageTitle()).toBe('Products');
     });
     test('should display 6 products', async ({ authenticatedPage }) => {
         expect(await authenticatedPage.getInventoryItemCount()).toBe(6);

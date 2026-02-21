@@ -1,4 +1,4 @@
-import { expect, type Locator, type Page } from '@playwright/test';
+import { type Locator, type Page } from '@playwright/test';
 import { BasePage } from './BasePage';
 import { HeaderComponent } from '../components/HeaderComponent';
 
@@ -36,8 +36,8 @@ export class InventoryPage extends BasePage {
         await this.sortDropdown.selectOption(option);
     }
 
-    async expectInventoryPageVisible(): Promise<void> {
-        await expect(this.pageTitle).toHaveText('Products');
+    async getPageTitle(): Promise<string> {
+        return await this.pageTitle.innerText();
     }
 
     async getInventoryItemCount(): Promise<number> {

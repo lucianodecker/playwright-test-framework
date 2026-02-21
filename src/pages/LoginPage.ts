@@ -1,4 +1,4 @@
-import { expect, type Locator, type Page } from '@playwright/test';
+import { type Locator, type Page } from '@playwright/test';
 import { BasePage } from './BasePage';
 
 export class LoginPage extends BasePage {
@@ -22,8 +22,8 @@ export class LoginPage extends BasePage {
         await this.submitLogin();
     }
 
-    async expectErrorMessage(expectedText: string): Promise<void> {
-        await expect(this.error).toHaveText(expectedText);
+    async getErrorMessage(): Promise<string> {
+        return await this.error.innerText();
     }
 
     async submitLogin(): Promise<void> {

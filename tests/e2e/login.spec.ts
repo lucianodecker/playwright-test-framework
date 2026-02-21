@@ -7,14 +7,14 @@ test.describe('Login', () => {
     });
     test('should not login with invalid credentials', async ({ loginPage }) => {
         await loginPage.loginWith('locked_out_user', 'secret_sauce');
-        await loginPage.expectErrorMessage('Epic sadface: Sorry, this user has been locked out.');
+        expect(await loginPage.getErrorMessage()).toBe('Epic sadface: Sorry, this user has been locked out.');
     });
     test('empty login credentials', async ({ loginPage }) => {
         await loginPage.submitLogin();
-        await loginPage.expectErrorMessage('Epic sadface: Username is required');
+        expect(await loginPage.getErrorMessage()).toBe('Epic sadface: Username is required');
     });
     test('wrong user password', async ({ loginPage }) => {
         await loginPage.loginWith('standard_user', 'public_sauce');
-        await loginPage.expectErrorMessage('Epic sadface: Username and password do not match any user in this service');
+        expect(await loginPage.getErrorMessage()).toBe('Epic sadface: Username and password do not match any user in this service');
     });
 });
