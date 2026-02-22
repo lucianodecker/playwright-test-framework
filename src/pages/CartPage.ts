@@ -7,7 +7,6 @@ export class CartPage extends BasePage {
     public readonly header: HeaderComponent;
     private readonly pageTitle: Locator;
     private readonly cartItemCount: Locator;
-    private readonly cartItemNames: Locator;
     private readonly continueShoppingButton: Locator;
     private readonly checkoutButton: Locator;
 
@@ -17,7 +16,6 @@ export class CartPage extends BasePage {
         this.header = new HeaderComponent(page);
         this.pageTitle = this.page.locator('[data-test="title"]');
         this.cartItemCount = this.page.locator('[data-test="item-quantity"]');
-        this.cartItemNames = this.page.locator('[data-test="inventory-item-name"]');
         this.continueShoppingButton = this.page.locator('[data-test="continue-shopping"]');
         this.checkoutButton = this.page.locator('[data-test="checkout"]');
     }
@@ -41,5 +39,10 @@ export class CartPage extends BasePage {
 
     async getPageTitle(): Promise<string> {
         return await this.pageTitle.innerText();
+    }
+
+    async getCartItemPrice(itemName: string): Promise<string> {
+        const cartItemPrice = this.page.locator('[data-test="inventory-item"]').filter({ hasText: itemName});
+        return await cartItemPrice.locator('[data-test="inventory-item-price"]').innerText();
     }
 }
