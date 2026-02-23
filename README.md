@@ -154,6 +154,7 @@ The GitHub Actions pipeline runs on every push and pull request to `main`:
 1. **Install** — deterministic `npm ci` from lockfile
 2. **Test** — full E2E and accessibility suite
 3. **Artifacts** — Playwright HTML report + A11y JSON reports (60-day retention)
+4. **Note:** Visual regression tests run locally only — CI environments have different font rendering and subpixel antialiasing, which produces false positives.
 
 Credentials are managed through GitHub repository secrets. The pipeline uses `ubuntu-latest` with a single worker for deterministic test execution.
 

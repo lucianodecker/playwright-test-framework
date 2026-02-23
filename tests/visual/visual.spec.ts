@@ -1,5 +1,7 @@
 import { test, expect } from '../../src/fixtures/fixtures';
 
+test.skip(!!process.env.CI, 'Visual regression requires controlled rendering environment — runs locally only');
+
 test.describe('Visual Regression', () => {
     test('login page should match baseline', async ({ loginPage, page }) => {
         await expect(page).toHaveScreenshot('login-page.png', { maxDiffPixelRatio: 0.05 });
