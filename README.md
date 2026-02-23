@@ -16,6 +16,7 @@ End-to-end test automation framework built with **Playwright** and **TypeScript*
 - **Storage State authentication** — login once, reuse across all tests
 - **CI/CD pipeline** with GitHub Actions, secrets management, and artifact retention
 - **Automated A11y reporting** — structured JSON reports generated on every violation
+- **Cross-browser testing** on Chromium, Firefox, and WebKit
 
 ---
 

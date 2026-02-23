@@ -16,22 +16,47 @@ export default defineConfig({
   },
   projects: [
     {
-      name: 'setup',
-      testMatch: /.*\.setup\.ts/,
+        name: 'setup',
+        testMatch: /.*\.setup\.ts/,
     },
     {
-      name: 'chromium',
-      testIgnore: /.*login\.spec\.ts/,
-      use: { ...devices['Desktop Chrome'],
-        storageState: '.auth/user.json',
-       },
-      dependencies: ['setup'],
+        name: 'chromium',
+        testIgnore: /.*login\.spec\.ts/,
+        use: { ...devices['Desktop Chrome'],
+            storageState: '.auth/user.json',
+        },
+        dependencies: ['setup'],
     },
     {
-      name: 'chromium-no-auth',
-      testMatch: /.*login\.spec\.ts/,
-      use: { ...devices['Desktop Chrome'],
-      }
-    }
+        name: 'firefox',
+        testIgnore: /.*login\.spec\.ts/,
+        use: { ...devices['Desktop Firefox'],
+            storageState: '.auth/user.json',
+        },
+        dependencies: ['setup'],
+    },
+    {
+        name: 'webkit',
+        testIgnore: /.*login\.spec\.ts/,
+        use: { ...devices['Desktop Safari'],
+            storageState: '.auth/user.json',
+        },
+        dependencies: ['setup'],
+    },
+    {
+        name: 'chromium-no-auth',
+        testMatch: /.*login\.spec\.ts/,
+        use: { ...devices['Desktop Chrome'] },
+    },
+    {
+        name: 'firefox-no-auth',
+        testMatch: /.*login\.spec\.ts/,
+        use: { ...devices['Desktop Firefox'] },
+    },
+    {
+        name: 'webkit-no-auth',
+        testMatch: /.*login\.spec\.ts/,
+        use: { ...devices['Desktop Safari'] },
+    },
   ]
 });

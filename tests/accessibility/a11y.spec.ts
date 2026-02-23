@@ -4,6 +4,8 @@ import { test, expect } from '../../src/fixtures/fixtures';
 import fs from 'fs';
 import path from 'path';
 
+test.skip(({ browserName }) => browserName !== 'chromium', 'A11y scans only run on Chromium');
+
 interface KnownViolation {
     readonly ruleId: string;
     readonly reason: string;

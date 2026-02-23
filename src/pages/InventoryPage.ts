@@ -51,5 +51,9 @@ export class InventoryPage extends BasePage {
     async removeItemFromCart(itemName: string): Promise<void> {
         const inventoryCartItem = this.inventoryItem.filter({ hasText: itemName });
         await inventoryCartItem.locator('button').filter({ hasText: 'Remove' }).click();
-    } 
+    }
+    
+    async waitForItems(): Promise<void> {
+    await this.inventoryItem.first().waitFor();
+    }
 }

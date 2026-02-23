@@ -21,6 +21,7 @@ export const test = base.extend<CustomFixtures>({
     authenticatedPage: async ({ page }, use) => {
         const inventoryPage = new InventoryPage(page);
         await inventoryPage.goto();
+        await inventoryPage.waitForItems();
         await use(inventoryPage);
     },
 });
