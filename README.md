@@ -10,7 +10,7 @@ End-to-end test automation framework built with **Playwright** and **TypeScript*
 
 ## Highlights
 
-- **26 automated tests** across 5 test suites (Login, Inventory, Cart, Checkout, Accessibility)
+- **28 automated tests** across 5 test suites (Login, Inventory, Cart, Checkout, Accessibility)
 - **Page Object Model** with abstract base class and composition-based components
 - **WCAG 2.2 accessibility scanning** with known violation tracking and canary tests
 - **Storage State authentication** — login once, reuse across all tests
