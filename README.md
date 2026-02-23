@@ -17,6 +17,7 @@ End-to-end test automation framework built with **Playwright** and **TypeScript*
 - **CI/CD pipeline** with GitHub Actions, secrets management, and artifact retention
 - **Automated A11y reporting** — structured JSON reports generated on every violation
 - **Cross-browser testing** on Chromium, Firefox, and WebKit
+- **Visual Regression testing** with baseline screenshot comparison
 
 ---
 
@@ -127,7 +128,8 @@ Credentials are never hardcoded. Locally, they are loaded from `.env` via dotenv
 | Cart | 6 | Navigation, product details, price validation, multi-item |
 | Checkout | 7 | Form validation, complete purchase flow, cancel navigation |
 | Accessibility | 3 | WCAG 2.2 scans (login + inventory), canary test |
-| **Total** | **25** | **+ 1 auth setup** |
+| Visual | 3 | Baseline screenshot comparison (login, inventory, cart) |
+| **Total** | **28** | **+ 1 auth setup** |
 
 ---
 
