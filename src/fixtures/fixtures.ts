@@ -18,14 +18,9 @@ export const test = base.extend<CustomFixtures>({
         const inventoryPage = new InventoryPage(page);
         await use(inventoryPage);
     },
-    authenticatedPage: async ({ loginPage, inventoryPage }, use) => {
-        const username = process.env.STANDARD_USER;
-        const password = process.env.STANDARD_PASSWORD;
-        if (!username || !password) {
-            throw new Error(`Missing environment variables: STANDARD_USER or STANDARD_PASSWORD are not defined in the .env file. ` +
-            `Please ensure your local environment is correctly configured.`);
-        }
-        await loginPage.loginWith(username, password);   
+    authenticatedPage: async ({ page }, use) => {
+        const inventoryPage = new InventoryPage(page);
+        await inventoryPage.goto();
         await use(inventoryPage);
     },
 });
