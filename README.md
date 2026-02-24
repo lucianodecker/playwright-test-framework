@@ -1,6 +1,6 @@
 # Playwright Test Automation Framework
 
-![E2E & Accessibility Tests](https://github.com/lucianodecker/playwright-test-framework/actions/workflows/playwright.yml/badge.svg)
+![GitHub Actions](https://github.com/lucianodecker/playwright-test-framework/actions/workflows/playwright.yml/badge.svg)
 
 End-to-end test automation framework built with **Playwright** and **TypeScript**. Covers a complete e-commerce purchase flow, automated WCAG 2.2 accessibility compliance scanning, and a CI/CD pipeline with GitHub Actions.
 
@@ -8,9 +8,9 @@ End-to-end test automation framework built with **Playwright** and **TypeScript*
 
 ---
 
-## Highlights
+## ✨ Highlights
 
-- **28 automated tests** across 5 test suites (Login, Inventory, Cart, Checkout, Accessibility)
+- **28 automated tests** across 6 test suites (Login, Inventory, Cart, Checkout, Accessibility, Visual)
 - **Page Object Model** with abstract base class and composition-based components
 - **WCAG 2.2 accessibility scanning** with known violation tracking and canary tests
 - **Storage State authentication** — login once, reuse across all tests
@@ -21,8 +21,13 @@ End-to-end test automation framework built with **Playwright** and **TypeScript*
 
 ---
 
-## Tech Stack
+## 🛠️ Tech Stack
 
+![Playwright](https://img.shields.io/badge/-Playwright-%232EAD33?style=flat-square&logo=playwright&logoColor=white)
+![TypeScript](https://img.shields.io/badge/-TypeScript-%233178C6?style=flat-square&logo=typescript&logoColor=white)
+![axe-core](https://img.shields.io/badge/-axe--core-%23542784?style=flat-square&logo=deque&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/-GitHub_Actions-%232088FF?style=flat-square&logo=github-actions&logoColor=white)
+![dotenv](https://img.shields.io/badge/-dotenv-%23ECD53F?style=flat-square&logo=dotenv&logoColor=black)
 | Technology | Purpose |
 |---|---|
 | Playwright | Browser automation & test runner |
@@ -30,10 +35,9 @@ End-to-end test automation framework built with **Playwright** and **TypeScript*
 | axe-core | Automated WCAG 2.2 accessibility scanning |
 | GitHub Actions | CI/CD pipeline with secrets management |
 | dotenv | Environment variable management |
-
 ---
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 ├── .auth/                          # Storage State (gitignored)
@@ -58,18 +62,20 @@ End-to-end test automation framework built with **Playwright** and **TypeScript*
 │   ├── auth.setup.ts               # One-time authentication setup
 │   ├── accessibility/
 │   │   └── a11y.spec.ts            # WCAG 2.2 compliance tests
-│   └── e2e/
-│       ├── login.spec.ts
-│       ├── inventory.spec.ts
-│       ├── cart.spec.ts
-│       └── checkout.spec.ts
+│   ├── e2e/
+│   │   ├── login.spec.ts
+│   │   ├── inventory.spec.ts
+│   │   ├── cart.spec.ts
+│   │   └── checkout.spec.ts
+│   └── visual/
+│       └── visual.spec.ts          # Visual regression tests
 ├── .env.example
 └── playwright.config.ts
 ```
 
 ---
 
-## Architecture Decisions
+## 🏗️ Architecture Decisions
 
 ### Page Object Model with Abstract Base Class
 
@@ -81,6 +87,7 @@ Shared UI elements like the site header are extracted into reusable components (
 
 ```typescript
 public readonly header: HeaderComponent;
+
 constructor(page: Page) {
     super(page);
     this.header = new HeaderComponent(page);
@@ -95,7 +102,7 @@ Tests reuse a saved browser state instead of logging in before every test. A ded
 
 ### Known Violations Tracking with Canary Tests
 
-Accessibility violations that cannot be fixed (e.g., third-party components) are documented in a `KNOWN_VIOLATIONS` registry with rule ID, reason, WCAG criterion, discovery date, and ticket URL. A **canary test** verifies each known violation still exists — if the upstream bug gets fixed, the canary fails, signaling the team to clean up the registry. This prevents stale documentation and ensures audit compliance.
+Accessibility violations that cannot be fixed (e.g., third-party components) are documented in a `KNOWN_VIOLATIONS` registry with rule ID, reason, WCAG criterion, discovery date, and ticket URL. A canary test verifies each known violation still exists — if the upstream bug gets fixed, the canary fails, signaling the team to clean up the registry. This prevents stale documentation and ensures audit compliance.
 
 ```typescript
 const KNOWN_VIOLATIONS: readonly KnownViolation[] = [
@@ -111,15 +118,15 @@ const KNOWN_VIOLATIONS: readonly KnownViolation[] = [
 
 ### Automated A11y Report Generation
 
-When violations are detected, a structured JSON report is written to `test-results/a11y-reports/`. Each report entry includes rule ID, severity, description, help URL, WCAG tags, affected HTML elements, and status (KNOWN or NEW). Reports are uploaded as CI artifacts for audit trails.
+When violations are detected, a structured JSON report is written to `test-results/a11y-reports/`. Each report entry includes rule ID, severity, description, help URL, WCAG tags, affected HTML elements, and status (`KNOWN` or `NEW`). Reports are uploaded as CI artifacts for audit trails.
 
 ### Environment Variables & Secrets Management
 
-Credentials are never hardcoded. Locally, they are loaded from `.env` via dotenv. In CI, they are injected through GitHub Actions repository secrets at job level. A fail-fast validation throws immediately if required variables are missing — tests never run with undefined credentials.
+Credentials are never hardcoded. Locally, they are loaded from `.env` via `dotenv`. In CI, they are injected through GitHub Actions repository secrets at job level. A fail-fast validation throws immediately if required variables are missing — tests never run with undefined credentials.
 
 ---
 
-## Test Coverage
+## 📋 Test Coverage
 
 | Suite | Tests | Scope |
 |---|---|---|
@@ -133,7 +140,7 @@ Credentials are never hardcoded. Locally, they are loaded from `.env` via dotenv
 
 ---
 
-## WCAG Compliance
+## ♿ WCAG Compliance
 
 This framework scans against the following WCAG standards:
 
@@ -147,20 +154,21 @@ Automated scanning catches approximately 30–40% of WCAG issues (technical viol
 
 ---
 
-## CI/CD Pipeline
+## 🚀 CI/CD Pipeline
 
 The GitHub Actions pipeline runs on every push and pull request to `main`:
 
 1. **Install** — deterministic `npm ci` from lockfile
 2. **Test** — full E2E and accessibility suite
 3. **Artifacts** — Playwright HTML report + A11y JSON reports (60-day retention)
-4. **Note:** Visual regression tests run locally only — CI environments have different font rendering and subpixel antialiasing, which produces false positives.
+
+> **Note:** Visual regression tests run locally only — CI environments have different font rendering and subpixel antialiasing, which produces false positives.
 
 Credentials are managed through GitHub repository secrets. The pipeline uses `ubuntu-latest` with a single worker for deterministic test execution.
 
 ---
 
-## Getting Started
+## 🚦 Getting Started
 
 ### Prerequisites
 
@@ -186,9 +194,11 @@ Fill in the values in `.env`:
 
 ```
 BASE_URL=https://www.saucedemo.com
-STANDARD_USER=standard_user
-STANDARD_PASSWORD=secret_sauce
+STANDARD_USER=<your_username>
+STANDARD_PASSWORD=<your_password>
 ```
+
+Credentials are available on the [SauceDemo login page](https://www.saucedemo.com).
 
 ### Run Tests
 
